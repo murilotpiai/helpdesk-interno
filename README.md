@@ -1,120 +1,134 @@
 # Helpdesk Interno
 
-## 📌 Visão Geral
+API REST para gerenciamento de chamados internos de TI, desenvolvida com Python, FastAPI e SQLAlchemy. O projeto simula um fluxo inicial de suporte tecnico dentro de uma organizacao, com abertura e listagem de chamados.
 
-O **Helpdesk Interno** é uma API backend desenvolvida para gerenciar chamados de suporte técnico dentro de uma organização. O sistema permite a abertura, listagem e gerenciamento inicial de chamados, simulando um ambiente real de atendimento de TI.
+Este repositorio foi organizado como projeto de portfolio para demonstrar backend, estruturacao de API, modelagem simples de dados e documentacao tecnica.
 
-Este projeto foi criado com foco em **boas práticas**, **organização de código** e **estrutura profissional**, sendo ideal para fins acadêmicos, portfólio e preparação para vagas de estágio/júnior.
+## Objetivo do projeto
 
----
+Criar uma base de sistema de helpdesk interno para registrar solicitacoes de suporte, centralizar chamados e facilitar o acompanhamento por uma equipe de TI.
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias utilizadas
 
-* **Python 3**
-* **FastAPI**
-* **SQLAlchemy**
-* **SQLite / SQL Server** (configurável)
-* **Uvicorn**
-* **Git & GitHub**
+- Python 3
+- FastAPI
+- SQLAlchemy
+- SQLite como banco local padrao
+- SQL Server via `DATABASE_URL`, quando configurado
+- Uvicorn
+- Pydantic
 
----
+## Funcionalidades
 
-## 📂 Estrutura do Projeto
+- Health check da API na rota `/`
+- Cadastro de chamados
+- Listagem de chamados cadastrados
+- Persistencia em banco de dados
+- Documentacao automatica via Swagger em `/docs`
+- Separacao basica entre rotas, modelos, schemas, banco de dados e operacoes CRUD
 
-```
+## Estrutura do projeto
+
+```text
 helpdesk-interno/
-│
-├── backend/
-│   ├── main.py        # Ponto de entrada da API
-│   ├── database.py    # Conexão com banco de dados
-│   ├── models.py      # Modelos ORM
-│   ├── schemas.py     # Schemas Pydantic
-│   ├── crud.py        # Regras de acesso a dados
-│   └── __init__.py
-│
-├── docs/
-│   └── requisitos/
-│       ├── requisitos-funcionais.md
-│       ├── requisitos-nao-funcionais.md
-│       └── regras-de-negocio.md
-│
-├── test_db.py         # Teste de conexão com o banco
-├── README.md
-├── .gitignore
-└── venv/              # Ambiente virtual (ignorado no Git)
+|-- backend/
+|   |-- main.py        # Ponto de entrada da API
+|   |-- database.py    # Configuracao de conexao com o banco
+|   |-- models.py      # Modelos SQLAlchemy
+|   |-- schemas.py     # Schemas Pydantic
+|   |-- crud.py        # Operacoes de acesso a dados
+|   `-- __init__.py
+|-- docs/
+|   `-- requisitos/
+|       |-- requisitos-funcionais.md
+|       |-- requisitos-nao-funcionais.md
+|       `-- regras-de-negocio.md
+|-- test_db.py
+|-- requirements.txt
+|-- .env.example
+|-- .gitignore
+`-- README.md
 ```
 
----
+## Como executar
 
-## 🚀 Como Executar o Projeto
-
-### 1️⃣ Clonar o repositório
+1. Clone o repositorio:
 
 ```bash
-git clone https://github.com/SEU_USUARIO/helpdesk-interno.git
+git clone https://github.com/murilotpiai/helpdesk-interno.git
 cd helpdesk-interno
 ```
 
-### 2️⃣ Criar e ativar o ambiente virtual
+2. Crie e ative um ambiente virtual:
 
 ```bash
 python -m venv venv
 ```
 
-**Windows:**
+No Windows:
 
 ```powershell
-venv\Scripts\Activate.ps1
+.\venv\Scripts\Activate.ps1
 ```
 
-### 3️⃣ Instalar dependências
+3. Instale as dependencias:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4️⃣ Executar a API
+4. Configure o ambiente, se quiser usar outro banco:
+
+```bash
+copy .env.example .env
+```
+
+Sem `.env`, a aplicacao usa SQLite local em `helpdesk.db`.
+
+5. Execute a API:
 
 ```bash
 python -m uvicorn backend.main:app --reload
 ```
 
-### 5️⃣ Acessar a documentação automática
+6. Acesse a documentacao:
 
-Abra no navegador:
-
-```
+```text
 http://127.0.0.1:8000/docs
 ```
 
----
+## Exemplo de chamado
 
-## 📌 Funcionalidades Atuais
+```json
+{
+  "titulo": "Computador nao liga",
+  "descricao": "Usuario informou que a estacao nao inicializa apos queda de energia.",
+  "prioridade": "alta"
+}
+```
 
-* Criar chamados de suporte
-* Listar chamados cadastrados
-* Persistência em banco de dados
-* Documentação automática via Swagger
+## Aprendizados
 
----
+- Organizacao de uma API backend em camadas simples
+- Criacao de rotas REST com FastAPI
+- Uso de schemas para validar entrada e saida de dados
+- Persistencia com SQLAlchemy
+- Importancia de documentar requisitos e regras de negocio
+- Configuracao de ambiente para facilitar execucao em outras maquinas
 
-## 🧩 Próximas Funcionalidades (Roadmap)
+## Melhorias futuras
 
-* Autenticação de usuários
-* Status do chamado (aberto, em atendimento, fechado)
-* Prioridade do chamado
-* Filtro por usuário e status
-* Dashboard administrativo
+- Autenticacao de usuarios
+- Controle de perfis, como solicitante, tecnico e administrador
+- Filtros por status, prioridade e data
+- Atualizacao de status do chamado
+- Testes automatizados
+- Dashboard para acompanhamento dos atendimentos
+- Container Docker para padronizar a execucao
 
----
+## Autor
 
-## 👨‍💻 Autor
+Desenvolvido por Murilo Turcato Piai, estudante de Sistemas de Informacao na UNIFAFIBE, com foco em desenvolvimento web, backend, dados e sistemas corporativos.
 
-Projeto desenvolvido por **Murilo Piai**, com foco em aprendizado prático de backend, APIs REST e organização de projetos profissionais.
-
----
-
-## 📄 Licença
-
-Este projeto é de uso educacional e livre para estudos.
-
+- LinkedIn: https://www.linkedin.com/in/mtpiai
+- GitHub: https://github.com/murilotpiai

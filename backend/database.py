@@ -1,24 +1,18 @@
+import os
+
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
-import urllib.parse
+from sqlalchemy.orm import declarative_base, sessionmaker
 
-connection_string = (
-    "DRIVER={ODBC Driver 17 for SQL Server};"
-    "SERVER=DESKTOP-POJQ4KA\\SQLEXPRESS;"
-    "DATABASE=HelpdeskDB;"
-    "Trusted_Connection=yes;"
-)
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./helpdesk.db")
 
-params = urllib.parse.quote_plus(connection_string)
+connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
 
-DATABASE_URL = f"mssql+pyodbc:///?odbc_connect={params}"
-
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATABASE_URL, connect_args=connect_args)
 
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
-    bind=engine
+    bind=engine,
 )
 
 Base = declarative_base()
